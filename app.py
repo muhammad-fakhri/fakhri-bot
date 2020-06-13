@@ -32,7 +32,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    # app.logger.info("Request body: "+body)
+    app.logger.info("Request body: "+body)
 
     # handle webhook body
     try:
@@ -45,10 +45,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-    )
+    if event.type == "message":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text)
+        )
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Sorry, you are not sending a message")
+        )
 
 
 if __name__ == "__main__":
