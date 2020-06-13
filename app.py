@@ -48,12 +48,22 @@ def handle_text_message(event):
     if event.type == "message":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=event.message.text)
+            TextSendMessage(text=event.message.text +
+                            ' Your event type is : ' + event.type)
+        )
+    elif event.type == "memberJoined":
+        member = event.joined.members[0]
+        memberId = member.userId
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='There is a user joined with id: ' + memberId +
+                            ' Your event type is : ' + event.type)
         )
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="Sorry, you are not sending a message")
+            TextSendMessage(text='Sorry, you are not sending a message' +
+                            ' Your event type is : ' + event.type)
         )
 
 
