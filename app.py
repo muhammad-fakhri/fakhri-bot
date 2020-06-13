@@ -8,7 +8,7 @@ from linebot import(
 )
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import(
-    MessageEvent, TextMessage, TextSendMessage
+    MessageEvent, TextMessage, TextSendMessage, MemberJoinedEvent
 )
 
 app = Flask(__name__)
@@ -45,26 +45,27 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    if event.type == "message":
+    if event.message.text == "summon":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=event.message.text +
-                            ' Your event type is : ' + event.type)
-        )
-    elif event.type == "memberJoined":
-        member = event.joined.members[0]
-        memberId = member.userId
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='There is a user joined with id: ' + memberId +
-                            ' Your event type is : ' + event.type)
+            TextSendMessage(text='Who you would like to summon ?')
         )
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='Sorry, you are not sending a message' +
-                            ' Your event type is : ' + event.type)
+            TextSendMessage(text='Your message is : ' + event.message.text)
         )
+
+
+@handler.add(MemberJoinedEvent)
+def handle_member_joined(event):
+    member = event.joined.members[0]
+    memberId = member.userId
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text='There is a user joined with id: ' + memberId +
+                        ', Your event type is : ' + event.type)
+    )
 
 
 if __name__ == "__main__":
