@@ -42,7 +42,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     msg = event.message.text
-    if msg.find('/r') == 0 and msg[2] == ' ':
+    if msg[0:2] == '/r' and msg[2] == ' ':
         name = msg.split()[2]
         line_bot_api.reply_message(
             event.reply_token,
