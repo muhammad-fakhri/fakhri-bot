@@ -43,11 +43,11 @@ def callback():
 def handle_text_message(event):
     msg = event.message.text
     if msg[0:2] == '/r' and msg[2] == ' ':
-        name = msg.split()[2]
+        name = msg.split()[1]
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text='proceed to roasting ' + name+', please wait...')
+                text='proceed to roasting ' + name + ', please wait...')
         )
     else:
         line_bot_api.reply_message(
