@@ -1,5 +1,7 @@
 txt = "/r obdal"
+idx = txt.find('/r')
 
-if txt.find('/r') == 0 and txt[2] == " ":
+if idx == 0 and txt[2] == " ":
     name = txt.split()[1]
     print("rosting "+name)
+    print(idx)

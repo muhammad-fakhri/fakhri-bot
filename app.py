@@ -46,16 +46,8 @@ def handle_text_message(event):
         name = msg.split()[2]
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='proceed to roasting '+name+'...')
-        )
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='please wait...')
-        )
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='your message: ' + event.message.text)
+            TextSendMessage(
+                text='proceed to roasting ' + name+', please wait...')
         )
 
 
