@@ -1,15 +1,11 @@
 import os
+
 from decouple import config
-from flask import(
-    Flask, request, abort
-)
-from linebot import(
-    LineBotApi, WebhookHandler
-)
+from flask import Flask, abort, request
+from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import(
-    MessageEvent, TextMessage, TextSendMessage, MemberJoinedEvent
-)
+from linebot.models import (MemberJoinedEvent, MessageEvent, TextMessage,
+                            TextSendMessage)
 
 app = Flask(__name__)
 
@@ -45,15 +41,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    if event.message.text == "summon":
+    msg = event.message.text
+    if msg.find('/r') == 0 and msg[2] == " ":
+        name = msg.split()[2]
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='Who you would like to summon ?')
+            TextSendMessage(text="proceed to roasting "+name+"...")
         )
-    else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='Your message is : ' + event.message.text)
+            TextSendMessage(text='please wait...')
         )
 
 
