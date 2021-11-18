@@ -49,11 +49,6 @@ def handle_text_message(event):
             TextSendMessage(
                 text='proceed to roasting ' + name + ', please wait...')
         )
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='your message: ' + msg)
-        )
 
 
 @handler.add(MemberJoinedEvent)
